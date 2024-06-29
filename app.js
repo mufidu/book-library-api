@@ -32,7 +32,12 @@ const memberRoutes = {
     book: require("./app/api/member/book/router"),
 };
 
+const publicRoutes = {
+    book: require("./app/api/public/book/router"),
+};
+
 Object.values(memberRoutes).forEach((route) => app.use("/api", route));
+Object.values(publicRoutes).forEach((route) => app.use("/api", route));
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
