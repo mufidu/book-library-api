@@ -1,4 +1,26 @@
 'use strict';
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     MemberBook:
+ *       type: object
+ *       required:
+ *         - BookId
+ *         - MemberId
+ *         - dateBorrowed
+ *       properties:
+ *         BookId:
+ *           type: string
+ *           description: Book's ID
+ *         MemberId:
+ *           type: string
+ *           description: Member's ID
+ *         dateBorrowed:
+ *           type: string
+ *           format: date-time
+ *           description: Date when the book was borrowed
+ */
 const {
   Model
 } = require('sequelize');

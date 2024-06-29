@@ -4,9 +4,14 @@ const cors = require("cors");
 const errorHandlerMiddleware = require("./app/middlewares/handle-error");
 const notFoundMiddleware = require("./app/middlewares/not-found");
 const promMiddleware = require("express-prometheus-middleware");
+const swaggerUi = require("swagger-ui-express");
+const swaggerJsdoc = require("swagger-jsdoc");
+const options = require("./swagger/options");
 
 const app = express();
 
+const specs = swaggerJsdoc(options);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
 app.use(logger("dev"));
 app.use(
     promMiddleware({

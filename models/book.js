@@ -1,4 +1,31 @@
 'use strict';
+// Generate swagger docs for Book model
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Book:
+ *       type: object
+ *       required:
+ *         - code
+ *         - title
+ *         - author
+ *         - stock
+ *       properties:
+ *         code:
+ *           type: string
+ *           description: Unique code for the book.
+ *         title:
+ *           type: string
+ *           description: Title of the book.
+ *         author:
+ *           type: string
+ *           description: Author of the book.
+ *         stock:
+ *           type: integer
+ *         description: Number of books in stock.
+ */
+
 const {
   Model
 } = require('sequelize');

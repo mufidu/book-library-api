@@ -6,6 +6,43 @@ const MemberBook = require("../../../../models").MemberBook;
 const config = require("../../../../config/environment-config");
 config.loadEnvironmentVariables();
 
+/**
+ * @swagger
+ * /api/member/book/borrow:
+ *   post:
+ *     summary: Borrow a book
+ *     tags: [Books]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - bookId
+ *             properties:
+ *               bookId:
+ *                 type: string
+ *                 description: The ID of the book to borrow
+ *     responses:
+ *       201:
+ *         description: Book borrowed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 book:
+ *                   $ref: '#/components/schemas/Book'
+ *                 member:
+ *                   $ref: '#/components/schemas/Member'
+ *                 memberBook:
+ *                   $ref: '#/components/schemas/MemberBook'
+ *       400:
+ *         description: Bad request (e.g., book is out of stock, member has borrowed >= 2 books, member is currently being penalized)
+ *       404:
+ *         description: Book not found
+ */
 const borrowBook = async (req) => {
     const { id } = req.user.member;
     const { bookId } = req.body;
@@ -75,6 +112,29 @@ const borrowBook = async (req) => {
     };
 }
 
+/**
+ * @swagger
+ * /api/member/book/borrow:
+ *   get:
+ *     summary: Get borrowed books
+ *     description: Retrieves a list of books borrowed by the authenticated member.
+ *     tags: [Books]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of borrowed books.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/MemberBook'
+ *       401:
+ *         description: Unauthorized, token missing or invalid.
+ *       500:
+ *         description: Internal server error.
+ */
 const getBorrowedBooks = async (req) => {
     const { id } = req.user.member;
 
@@ -87,6 +147,57 @@ const getBorrowedBooks = async (req) => {
     return borrowedBooks;
 }
 
+/**
+ * @swagger
+ * /api/member/book/return:
+ *   post:
+ *     summary: Return a borrowed book
+ *     description: Allows a member to return a book they have borrowed.
+ *     tags: [Books]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - bookId
+ *             properties:
+ *               bookId:
+ *                 type: string
+ *                 description: The ID of the book to return.
+ *     responses:
+ *       200:
+ *         description: Book returned successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 book:
+ *                   $ref: '#/components/schemas/Book'
+ *                 member:
+ *                   $ref: '#/components/schemas/Member'
+ *                 memberBook:
+ *                   $ref: '#/components/schemas/MemberBook'
+ *                 dateReturned:
+ *                   type: string
+ *                   format: date-time
+ *                   description: The date and time when the book was returned.
+ *                 diffDays:
+ *                   type: integer
+ *                   description: The number of days the book was borrowed.
+ *       400:
+ *         description: Bad request, e.g., book is not borrowed by member.
+ *       404:
+ *         description: Book not found.
+ *       401:
+ *         description: Unauthorized, token missing or invalid.
+ *       500:
+ *         description: Internal server error.
+ */
 const returnBook = async (req) => {
     const { id } = req.user.member;
     const { bookId } = req.body;

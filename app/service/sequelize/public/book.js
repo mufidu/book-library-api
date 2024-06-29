@@ -5,6 +5,27 @@ const MemberBook = require("../../../../models").MemberBook;
 const config = require("../../../../config/environment-config");
 config.loadEnvironmentVariables();
 
+/**
+ * @swagger
+ * /api/public/books:
+ *   get:
+ *     summary: Retrieves all books with stock greater than 0
+ *     tags: [Books]
+ *     responses:
+ *       200:
+ *         description: A list of books.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 books:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Book'
+ *       500:
+ *         description: Internal server error
+ */
 const showAllBooks = async () => {
     const books = await Book.findAll({
         include: {

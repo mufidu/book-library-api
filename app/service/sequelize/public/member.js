@@ -5,10 +5,27 @@ const MemberBook = require("../../../../models").MemberBook;
 const config = require("../../../../config/environment-config");
 config.loadEnvironmentVariables();
 
-// Member check
-//  Shows all existing members
-//  The number of books being borrowed by each member
-
+/**
+ * @swagger
+ * /api/public/members:
+ *   get:
+ *     summary: Retrieves all members
+ *     tags: [Members]
+ *     responses:
+ *       200:
+ *         description: A list of all members.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 members:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Member'
+ *       500:
+ *         description: Internal server error
+ */
 const showAllMembers = async () => {
     const members = await Member.findAll({
         include: {
