@@ -1,7 +1,8 @@
 const { StatusCodes } = require("http-status-codes");
 const {
     borrowBook,
-    getBorrowedBooks
+    getBorrowedBooks,
+    returnBook,
 } = require("../../../service/sequelize/member/book");
 
 const borrow = async (req, res, next) => {
@@ -32,7 +33,22 @@ const getBorrowed = async (req, res, next) => {
     }
 }
 
+const returnBorrowed = async (req, res, next) => {
+    try {
+        const result = await returnBook(req);
+
+        res.status(StatusCodes.OK).json({
+            status: StatusCodes.OK,
+            msg: "OK",
+            data: result,
+        });
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
     borrow,
     getBorrowed,
+    returnBorrowed,
 };
