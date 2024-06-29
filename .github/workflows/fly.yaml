@@ -5,34 +5,34 @@ on:
             - main
 
 jobs:
-    # unit_tests:
-    #     name: Testing
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - name: Checkout code
-    #           uses: actions/checkout@v3
+    unit_tests:
+        name: Testing
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
 
-    #         # Step to setup flyctl
-    #         - name: Setup flyctl
-    #           uses: superfly/flyctl-actions/setup-flyctl@master
+            # Step to setup flyctl
+            - name: Setup flyctl
+              uses: superfly/flyctl-actions/setup-flyctl@master
 
-    #         # Step to run fly proxy in the background
-    #         - name: Start Fly proxy
-    #           run: flyctl proxy 5433:5433 -a bookstore-db &
-    #           env:
-    #               FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
+            # Step to run fly proxy in the background
+            - name: Start Fly proxy
+              run: flyctl proxy 5433:5433 -a bookstore-db &
+              env:
+                  FLY_ACCESS_TOKEN: ${{ secrets.FLY_ACCESS_TOKEN }}
 
-    #         - name: Create .env
-    #           run: |
-    #               echo '${{ secrets.ENV }}' > ./deployment/.env
+            - name: Create .env
+              run: |
+                  echo '${{ secrets.ENV }}' > ./deployment/.env
 
-    #         # Step to install dependencies
-    #         - name: Install dependencies
-    #           run: npm install
+            # Step to install dependencies
+            - name: Install dependencies
+              run: npm install
 
-    #         # Step to run local tests
-    #         - name: Run local tests
-    #           run: npm run test-local
+            # Step to run local tests
+            - name: Run local tests
+              run: npm run test-local
 
     deploy_app:
         name: Deploy to Fly
