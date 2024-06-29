@@ -7,7 +7,7 @@ const {
     BadRequestError,
 } = require("../errors");
 
-const authenticateCustomerToken = async (req, res, next) => {
+const authenticateMemberToken = async (req, res, next) => {
     try {
         let token;
         const authHeader = req.headers.authorization;
@@ -22,7 +22,7 @@ const authenticateCustomerToken = async (req, res, next) => {
         if (!data) {
             throw new UnauthenticatedError("Token Invalid");
         }
-        if (!data.customer) {
+        if (!data.member) {
             throw new BadRequestError("Invalid Token");
         }
         req.user = data;
@@ -34,5 +34,5 @@ const authenticateCustomerToken = async (req, res, next) => {
 };
 
 module.exports = {
-    authenticateCustomerToken,
+    authenticateMemberToken,
 };

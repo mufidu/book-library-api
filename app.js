@@ -29,6 +29,7 @@ app.get("/", (req, res) => {
 
 const memberRoutes = {
     auth: require("./app/api/member/auth/router"),
+    book: require("./app/api/member/book/router"),
 };
 
 Object.values(memberRoutes).forEach((route) => app.use("/api", route));

@@ -9,22 +9,22 @@ const config = require("../../../../config/environment-config");
 config.loadEnvironmentVariables();
 
 const registerMember = async (req) => {
-    const { code, username, password } = req.body;
+    const { code, name, password } = req.body;
 
-    if (!username || !password) {
-        throw new BadRequestError("Username and password is required");
+    if (!name || !password) {
+        throw new BadRequestError("Name and password is required");
     }
 
-    // Check if username exists in PostgreSQL database
-    const member = await Member.findOne({ where: { username } });
+    // Check if name exists in PostgreSQL database
+    const member = await Member.findOne({ where: { name } });
     if (member) {
-        throw new BadRequestError("Username already exists");
+        throw new BadRequestError("Name already exists");
     }
 
-    // Validate username
-    const isUsername = await validator.isAlphanumeric(username);
-    if (!isUsername) {
-        throw new BadRequestError("Invalid Username");
+    // Validate name
+    const isName = await validator.isAlphanumeric(name);
+    if (!isName) {
+        throw new BadRequestError("Invalid Name");
     }
 
     // Validate password
@@ -38,7 +38,7 @@ const registerMember = async (req) => {
         const sequelizeMember = await Member.create(
             {
                 code: code,
-                username: username,
+                name: name,
                 password: hashedPassword,
                 booksBorrowed: 0,
                 isPenalized: false,
@@ -55,13 +55,13 @@ const registerMember = async (req) => {
 };
 
 const loginMember = async (req) => {
-    const { username, password } = req.body;
+    const { name, password } = req.body;
 
-    if (!username || !password) {
-        throw new BadRequestError("Username and password is required");
+    if (!name || !password) {
+        throw new BadRequestError("Name and password is required");
     }
 
-    const member = await Member.findOne({ where: { username } });
+    const member = await Member.findOne({ where: { name } });
     if (!member) {
         throw new NotFoundError("Member not found");
     }
