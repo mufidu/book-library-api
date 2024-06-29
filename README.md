@@ -54,7 +54,7 @@ The API documentation is available at [Postman Documenter](https://documenter.ge
 
 ### Tech Stack
 
--   Node.js and npm for server-side code.
+-   Express.js for the API server.
 -   PostgreSQL for database.
 -   Postman for API testing.
 -   GitHub Actions for CI/CD.
