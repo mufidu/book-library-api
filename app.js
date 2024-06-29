@@ -34,6 +34,7 @@ const memberRoutes = {
 
 const publicRoutes = {
     book: require("./app/api/public/book/router"),
+    member: require("./app/api/public/member/router"),
 };
 
 Object.values(memberRoutes).forEach((route) => app.use("/api", route));

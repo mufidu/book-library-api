@@ -39,6 +39,7 @@ const borrowBook = async (req) => {
         }
 
         member.isPenalized = false;
+        member.datePenalized = null;
         await member.save();
     }
 
